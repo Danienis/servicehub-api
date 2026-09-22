@@ -1,0 +1,16 @@
+services:
+  servicehub-db:
+    image: postgres:15
+    container_name: servicehub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: servicehub
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: servicehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - servicehub-db-data:/var/lib/postgresql/data
+
+volumes:
+  servicehub-db-data:
