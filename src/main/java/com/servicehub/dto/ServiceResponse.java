@@ -28,7 +28,7 @@ public class ServiceResponse {
     @Schema(description = "Preço do serviço em reais", example = "250.00")
     private BigDecimal price;
 
-    @Schema(description = "Categoria do serviço", example = "MANUTENCAO")
+    @Schema(description = "Categoria do serviço", example = "AR_CONDICIONADO")
     private ServiceCategory category;
 
     @Schema(description = "ID do prestador responsável pelo serviço", example = "1")

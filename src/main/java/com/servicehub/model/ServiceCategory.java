@@ -1,14 +1,29 @@
 package com.servicehub.model;
 
 /**
- * Categorias disponíveis para os serviços oferecidos na plataforma ServiceHub.
+ * Categorias dos serviços. Deve ser idêntico ao CHECK chk_services_category do banco
+ * (nova categoria = nova migração Flyway).
  */
 public enum ServiceCategory {
     LIMPEZA,
-    MANUTENCAO,
-    TECNOLOGIA,
-    BELEZA,
-    CONSULTORIA,
-    EDUCACAO,
+    DIARISTA,
+    ENCANAMENTO,
+    ELETRICA,
+    JARDINAGEM,
+    PINTURA,
+    MARCENARIA,
+    PEDREIRO,
+    DEDETIZACAO,
+    AR_CONDICIONADO,
+    CHAVEIRO,
+    MONTAGEM_MOVEIS,
+    MUDANCA,
+    SUPORTE_TECNICO,
+    MANUTENCAO_COMPUTADORES,
+    DESENVOLVIMENTO_SOFTWARE,
+    REDES_E_INFRAESTRUTURA,
+    SEGURANCA_DIGITAL,
+    RECUPERACAO_DE_DADOS,
+    CONSULTORIA_TI,
     OUTROS
 }

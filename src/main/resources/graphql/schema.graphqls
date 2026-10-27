@@ -1,0 +1,48 @@
+# Endpoint alternativo GraphQL do ServiceHub (Aula 09 - Entrega 2, opcao A).
+# Disponivel em POST /graphql (exige "Authorization: Bearer <accessToken>") e GraphiQL em /graphiql (perfil demo).
+# Mapeia o mesmo dominio do REST:
+#   Provider = users com role PROVIDER | Service = services | Booking = service_requests (ordem de servico)
+
+type Query {
+    "Prestador por ID"
+    provider(id: ID!): Provider
+    "Prestadores, opcionalmente por categoria (com servico ativo) e disponibilidade"
+    providers(category: String, available: Boolean): [Provider!]!
+    "Servico ativo por ID"
+    service(id: ID!): Service
+    "Servicos ativos de um prestador"
+    servicesByProvider(providerId: ID!): [Service!]!
+}
+
+type Mutation {
+    "Contrata um servico. O cliente e' o usuario autenticado (papel CLIENT); nao se informa clientId."
+    bookService(serviceId: ID!, scheduledAt: String, notes: String): Booking!
+}
+
+type Provider {
+    id: ID!
+    name: String!
+    bio: String
+    "Media das avaliacoes de todos os servicos do prestador (null se nao houver)"
+    rating: Float
+    available: Boolean!
+    services: [Service!]!
+}
+
+type Service {
+    id: ID!
+    title: String!
+    description: String
+    price: Float!
+    category: String!
+    provider: Provider!
+}
+
+type Booking {
+    id: ID!
+    status: String!
+    totalPrice: Float!
+    scheduledAt: String
+    notes: String
+    service: Service!
+}

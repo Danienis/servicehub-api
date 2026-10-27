@@ -1,16 +1,48 @@
+# ServiceHub API + PostgreSQL (Aula 12).
+# Uso:  cp .env.example .env  (preencha)  &&  docker compose up -d --build
 services:
-  servicehub-db:
-    image: postgres:15
-    container_name: servicehub-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: servicehub
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: servicehub
+  api:
+    build: .
+    container_name: servicehub-api
     ports:
-      - "5432:5432"
+      - "8080:8080"
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: servicehub-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
-      - servicehub-db-data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+    restart: unless-stopped
 
 volumes:
-  servicehub-db-data:
+  pg_data:
+
+networks:
+  app-network:
+    driver: bridge

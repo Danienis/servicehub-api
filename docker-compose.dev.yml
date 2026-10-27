@@ -1,0 +1,14 @@
+# Override de desenvolvimento:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml --env-file .env up -d --build
+services:
+  api:
+    environment:
+      JPA_SHOW_SQL: "true"
+      LOG_LEVEL: DEBUG
+      GRAPHIQL_ENABLED: "true"
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    ports:
+      - "5005:5005" # porta de debug remoto
+  postgres:
+    ports:
+      - "5432:5432" # acesso local ao banco (psql/DBeaver)
