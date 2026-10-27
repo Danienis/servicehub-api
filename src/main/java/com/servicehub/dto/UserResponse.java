@@ -1,5 +1,6 @@
 package com.servicehub.dto;
 
+import com.servicehub.model.Role;
 import com.servicehub.model.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Representação de um usuário retornada pela API")
+@Schema(description = "Representação de um usuário retornada pela API (nunca inclui a senha)")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,8 +24,17 @@ public class UserResponse {
     @Schema(description = "E-mail do usuário", example = "maria@servicehub.com")
     private String email;
 
+    @Schema(description = "Papel do usuário", example = "PROVIDER")
+    private Role role;
+
     @Schema(description = "Telefone de contato", example = "(62) 99999-0000")
     private String phone;
+
+    @Schema(description = "Apresentação do usuário")
+    private String bio;
+
+    @Schema(description = "URL do avatar")
+    private String avatarUrl;
 
     @Schema(description = "Indica se o usuário está ativo na plataforma", example = "true")
     private boolean active;
@@ -40,7 +50,10 @@ public class UserResponse {
                 user.getId(),
                 user.getFullName(),
                 user.getEmail(),
+                user.getRole(),
                 user.getPhone(),
+                user.getBio(),
+                user.getAvatarUrl(),
                 user.isActive(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()

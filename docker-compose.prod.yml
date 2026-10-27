@@ -1,0 +1,11 @@
+# Override de producao (banco nao exposto; logs enxutos; GraphiQL desligado):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env up -d
+services:
+  api:
+    environment:
+      JPA_SHOW_SQL: "false"
+      LOG_LEVEL: INFO
+      GRAPHIQL_ENABLED: "false"
+    restart: always
+  postgres:
+    restart: always
